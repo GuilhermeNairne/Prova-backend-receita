@@ -1,15 +1,22 @@
-import { IsString, IsNumber, IsArray } from "class-validator";
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNumberString,
+  IsString
+} from "class-validator";
 
 export class CreateReceitaDto {
-    @IsString()
-    nome: string
+  @IsString()
+  nome: string;
 
-    @IsNumber()
-    tempoPreparo: number
+  @IsString()
+  tempoPreparo: string;
 
-    @IsNumber()
-    custoAproximado: number
+  @IsNumberString()
+  custoAproximado: string;
 
-    @IsArray()
-    ingredientes: string[]
+  @IsArray()
+  @ArrayMinSize(1) 
+  @IsString({ each: true })
+  ingrediente: string[];
 }

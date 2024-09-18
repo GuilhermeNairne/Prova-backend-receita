@@ -1,26 +1,42 @@
-import { Injectable } from '@nestjs/common';
-import { CreateIngredienteDto } from './dto/create-ingrediente.dto';
-import { UpdateIngredienteDto } from './dto/update-ingrediente.dto';
+import { Injectable } from "@nestjs/common";
+import { CreateIngredienteDto } from "./dto/create-ingrediente.dto";
+import { UpdateIngredienteDto } from "./dto/update-ingrediente.dto";
+import { InjectModel } from "@nestjs/mongoose";
+import { Ingrediente, IngredienteDocument } from "./schema/ingrediente.schema";
+import mongoose, { Model } from "mongoose";
 
 @Injectable()
 export class IngredientesService {
+  constructor(
+    @InjectModel(Ingrediente.name)
+    private ingredienteModel: Model<IngredienteDocument>
+  ) {}
+
   create(createIngredienteDto: CreateIngredienteDto) {
-    return 'This action adds a new ingrediente';
+    return this.ingredienteModel.create(createIngredienteDto);
   }
 
   findAll() {
-    return `This action returns all ingredientes`;
+    return this.ingredienteModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ingrediente`;
+  findOne(id: mongoose.Types.ObjectId) {
+    return this.ingredienteModel.findById(id);
   }
 
   update(id: number, updateIngredienteDto: UpdateIngredienteDto) {
-    return `This action updates a #${id} ingrediente`;
+    return this.ingredienteModel.findByIdAndUpdate(
+      id,
+      { $set: updateIngredienteDto },
+      { new: true }
+    );
   }
 
   remove(id: number) {
-    return `This action removes a #${id} ingrediente`;
+    return this.ingredienteModel.deleteOne({ _id: id });
+  }
+
+  findByName(nome: string) {
+    return this.ingredienteModel.findOne({ nome });
   }
 }

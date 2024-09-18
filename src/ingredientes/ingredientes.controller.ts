@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { IngredientesService } from './ingredientes.service';
 import { CreateIngredienteDto } from './dto/create-ingrediente.dto';
 import { UpdateIngredienteDto } from './dto/update-ingrediente.dto';
+import mongoose from 'mongoose';
 
 @Controller('ingredientes')
 export class IngredientesController {
@@ -18,8 +19,8 @@ export class IngredientesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ingredientesService.findOne(+id);
+  findOne(@Param('id') id: mongoose.Types.ObjectId) {
+    return this.ingredientesService.findOne(id);
   }
 
   @Patch(':id')

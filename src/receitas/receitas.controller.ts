@@ -5,7 +5,7 @@ import { UpdateReceitaDto } from './dto/update-receita.dto';
 
 @Controller('receitas')
 export class ReceitasController {
-  constructor(private readonly receitasService: ReceitasService) {}
+  constructor(private readonly receitasService: ReceitasService) { }
 
   @Post()
   create(@Body() createReceitaDto: CreateReceitaDto) {
@@ -19,16 +19,16 @@ export class ReceitasController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.receitasService.findOne(+id);
+    return this.receitasService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateReceitaDto: UpdateReceitaDto) {
-    return this.receitasService.update(+id, updateReceitaDto);
+    return this.receitasService.update(id, updateReceitaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.receitasService.remove(+id);
+    return this.receitasService.remove(id);
   }
 }
